@@ -4,40 +4,65 @@
         <meta charset="utf-8">
         <title>文化课模拟器</title>
         <style type="text/css">
+			#begin_popup
+			{
+				display: flex;
+				position: fixed;
+				top: 30px;
+				background-color: rgb(118, 133, 214);
+				border-radius: 24px;
+				border-style: solid;
+				border-width: 2px;
+			}
+			#begin_popup_close
+			{
+				margin: 10px;
+				float: right;
+			}
             #begin_page
             {
-                background-color:rgb(194, 202, 247);
-				border-radius:24px;
-				border-style:solid;
-				border-width:2px;
-				border-color:rgb(66, 43, 119);
-				display:flex;
-				justify-content:center;
+                background-color: rgb(194, 202, 247);
+				border-radius: 24px;
+				border-style: solid;
+				border-width: 2px;
+				border-color: rgb(66, 43, 119);
+				display: flex;
+				justify-content: center;
 				flex-direction: column;
             }
 			#welcome
 			{
-				text-align:center;
-				color:rgb(40, 7, 116);
+				text-align: center;
+				color: rgb(40, 7, 116);
 			}
 			#introduction
 			{
-				text-align:center;
+				text-align: center;
 			}
 			#begin_button
 			{
-				margin:auto;
-				width:150px;
-				height:60px;
-				border:solid 2px;
-				text-align:center;
-				color:rgb(194, 202, 247);
-				font-size:20px;
-				background-color:rgb(68, 25, 167);
+				margin: auto;
+				width: 150px;
+				height: 60px;
+				border: solid 2px;
+				text-align: center;
+				color: rgb(194, 202, 247);
+				font-size: 20px;
+				background-color: rgb(68, 25, 167);
 			}
         </style>
     </head>
     <body>
+		<div id="begin_popup">
+			<div>
+				<button id = "begin_popup_close">×</button>
+				<p style = "margin: 20px; text-align: center;">
+					初二水谷，你被A+B Problem创飞无缘蓝名。
+					<br/>
+					再睁开眼，你发现自己坐在课桌前，数学考试已经结束了……
+				</p>
+			</div>
+		</div>
         <div id="begin_page">
             <h1 id="welcome">欢迎来到文化课模拟器！</h1>
             <p id="introduction">你将扮演一位AFO的OIer，在初中备战中考，争取高分！</p>
