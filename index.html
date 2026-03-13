@@ -8,16 +8,59 @@
 			{
 				display: flex;
 				position: fixed;
-				top: 30px;
+				left: 50%;
+				transform: translate(-50%, -50%);
 				background-color: rgb(118, 133, 214);
 				border-radius: 24px;
 				border-style: solid;
 				border-width: 2px;
+				z-index: 1000;
+				animation: slide_up 0.6s ease-out forwards;
+				width: 400px;
+			}
+			@keyframes slide_up
+			{
+				from
+				{
+					top: 52vh;
+				}
+				to
+				{
+					top: 50vh;
+				}
+			}
+			#overlay
+			{
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.8);
+				z-index: 999;
 			}
 			#begin_popup_close
 			{
-				margin: 10px;
-				float: right;
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				width: 30px;
+				height: 30px;
+				background-color: rgb(68, 83, 158);
+				color: rgb(20, 29, 73);
+				border: none;
+				border-radius: 50%;
+				font-size: 18px;
+				font-weight: bold;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: background-color 0.3s;
+			}
+			#begin_popup_close:hover
+			{
+				background-color: rgb(49, 60, 116);
 			}
             #begin_page
             {
@@ -29,6 +72,12 @@
 				display: flex;
 				justify-content: center;
 				flex-direction: column;
+				position: fixed;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				width: 600px;
+				height: 250px;
             }
 			#welcome
 			{
@@ -45,28 +94,216 @@
 				width: 150px;
 				height: 60px;
 				border: solid 2px;
+				border-radius: 10px;
 				text-align: center;
 				color: rgb(194, 202, 247);
 				font-size: 20px;
 				background-color: rgb(68, 25, 167);
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+				transition: all 0.3s ease;
+				cursor: pointer;
+			}
+			#begin_button:hover
+			{
+				transform: scale(1.05);
+				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 			}
         </style>
+		<script>
+			var energy = 100;
+			function close_begin_popup()
+			{
+				document.getElementById("overlay").remove();
+				document.getElementById("begin_popup").remove();
+			}
+			function start_game()
+			{
+				document.body.innerHTML = '';
+				var top_left = document.createElement('div');
+				top_left.id = 'outer_top_left';
+				var top_right = document.createElement('div');
+				top_right.id = 'outer_top_right';
+				var bottom_left = document.createElement('div');
+				bottom_left.id = 'outer_bottom_left';
+				var bottom_right = document.createElement('div');
+				bottom_right.id = 'outer_bottom_right';
+				top_left.style.width = '40vw';
+				top_left.style.height = '60vh';
+				top_left.style.position = 'fixed';
+				top_left.style.top = '0px';
+				top_left.style.left = '0px';
+				top_right.style.width = '60vw';
+				top_right.style.height = '60vh';
+				top_right.style.position = 'fixed';
+				top_right.style.top = '0px';
+				top_right.style.right = '0px';
+				bottom_left.style.width = '40vw';
+				bottom_left.style.height = '40vh';
+				bottom_left.style.position = 'fixed';
+				bottom_left.style.bottom = '0px';
+				bottom_left.style.left = '0px';
+				bottom_right.style.width = '60vw';
+				bottom_right.style.height = '40vh';
+				bottom_right.style.position = 'fixed';
+				bottom_right.style.bottom = '0px';
+				bottom_right.style.right = '0px';
+				document.body.appendChild(top_left);
+				document.body.appendChild(top_right);
+				document.body.appendChild(bottom_left);
+				document.body.appendChild(bottom_right);
+				var top_left_window = document.createElement('div');
+				top_left_window.id = 'window_top_left';
+				top_left_window.style.top = '40px';
+				top_left_window.style.bottom = '20px';
+				top_left_window.style.left = '40px';
+				top_left_window.style.right = '20px';
+				top_left_window.style.position = 'absolute';
+				top_left_window.style.backgroundColor = 'rgb(194, 202, 247)';
+				top_left_window.style.border = '2px solid rgb(66, 43, 119)';
+				top_left_window.style.boxSizing = 'border-box';
+				top_left_window.style.borderRadius = '24px';
+				document.getElementById("outer_top_left").appendChild(top_left_window);
+				
+				var top_right_window = document.createElement('div');
+				top_right_window.id = 'window_top_right';
+				top_right_window.style.top = '40px';
+				top_right_window.style.bottom = '20px';
+				top_right_window.style.left = '20px';
+				top_right_window.style.right = '40px';
+				top_right_window.style.position = 'absolute';
+				top_right_window.style.backgroundColor = 'rgb(194, 202, 247)';
+				top_right_window.style.border = '2px solid rgb(66, 43, 119)';
+				top_right_window.style.boxSizing = 'border-box';
+				top_right_window.style.borderRadius = '24px';
+				document.getElementById("outer_top_right").appendChild(top_right_window);
+				var bottom_left_window = document.createElement('div');
+				bottom_left_window.id = 'window_bottom_left';
+				bottom_left_window.style.top = '20px';
+				bottom_left_window.style.bottom = '40px';
+				bottom_left_window.style.left = '40px';
+				bottom_left_window.style.right = '20px';
+				bottom_left_window.style.position = 'absolute';
+				bottom_left_window.style.backgroundColor = 'rgb(194, 202, 247)';
+				bottom_left_window.style.border = '2px solid rgb(66, 43, 119)';
+				bottom_left_window.style.boxSizing = 'border-box';
+				bottom_left_window.style.borderRadius = '24px';
+				document.getElementById("outer_bottom_left").appendChild(bottom_left_window);
+				var bottom_right_window = document.createElement('div');
+				bottom_right_window.id = 'window_bottom_right';
+				bottom_right_window.style.top = '20px';
+				bottom_right_window.style.bottom = '40px';
+				bottom_right_window.style.left = '20px';
+				bottom_right_window.style.right = '40px';
+				bottom_right_window.style.position = 'absolute';
+				bottom_right_window.style.backgroundColor = 'rgb(194, 202, 247)';
+				bottom_right_window.style.border = '2px solid rgb(66, 43, 119)';
+				bottom_right_window.style.boxSizing = 'border-box';
+				bottom_right_window.style.borderRadius = '24px';
+				document.getElementById("outer_bottom_right").appendChild(bottom_right_window);
+				// 添加精力条到右上角
+				var energy_bar = document.createElement('div');
+				energy_bar.id = 'energy_bar';
+				energy_bar.innerHTML = '精力: <span id="energy_value">' + energy + '</span>';
+				energy_bar.style.position = 'absolute';
+				energy_bar.style.top = '15px';
+				energy_bar.style.left = '15px';
+				energy_bar.style.fontSize = '18px';
+				energy_bar.style.color = 'rgb(40, 7, 116)';
+				document.getElementById('top_right_window').appendChild(energy_bar);
+				// 添加写作业按钮到右下角
+				var do_homework_button = document.createElement('button');
+				do_homework_button.id = 'do_homework';
+				do_homework_button.innerHTML = '写作业';
+				do_homework_button.style.position = 'absolute';
+				do_homework_button.style.bottom = '15px';
+				do_homework_button.style.right = '15px';
+				do_homework_button.style.width = '100px';
+				do_homework_button.style.height = '40px';
+				do_homework_button.style.backgroundColor = 'rgb(68, 25, 167)';
+				do_homework_button.style.color = 'rgb(194, 202, 247)';
+				do_homework_button.style.border = 'none';
+				do_homework_button.style.borderRadius = '5px';
+				do_homework_button.style.cursor = 'pointer';
+				document.getElementById('window_bottom_right').appendChild(do_homework_button);var energy_bar = document.createElement('div');
+				energy_bar.id = 'energy_bar';
+				energy_bar.style.position = 'absolute';
+				energy_bar.style.top = '10px';
+				energy_bar.style.left = '10px';
+				energy_bar.style.width = '200px';
+				energy_bar.style.height = '20px';
+				energy_bar.style.backgroundColor = 'rgb(220, 220, 220)';
+				energy_bar.style.border = '2px solid rgb(66, 43, 119)';
+				energy_bar.style.borderRadius = '10px';
+				energy_bar.style.boxSizing = 'border-box';
+				document.getElementById("window_top_left").appendChild(energy_bar);
+				var energy_fill = document.createElement('div');
+				energy_fill.id = 'energy_fill';
+				energy_fill.style.width = energy + '%';
+				energy_fill.style.height = '100%';
+				energy_fill.style.backgroundColor = 'rgb(68, 25, 167)';
+				energy_fill.style.borderRadius = '10px 10px 10px 10px';
+				document.getElementById("energy_bar").appendChild(energy_fill);
+				var energy_text = document.createElement('div');
+				energy_text.id = 'energy_text';
+				energy_text.style.position = 'absolute';
+				energy_text.style.top = '10px';
+				energy_text.style.left = '220px';
+				energy_text.style.fontSize = '16px';
+				energy_text.style.color = 'rgb(66, 43, 119)';
+				energy_text.innerText = '精力: ' + energy + '%';
+				document.getElementById("window_top_left").appendChild(energy_text);
+				var action_button = document.createElement('button');
+				action_button.id = 'action_button';
+				action_button.style.position = 'absolute';
+				action_button.style.top = '50px';
+				action_button.style.left = '10px';
+				action_button.style.width = '100px';
+				action_button.style.height = '30px';
+				action_button.style.backgroundColor = 'rgb(68, 25, 167)';
+				action_button.style.color = 'rgb(194, 202, 247)';
+				action_button.style.border = 'none';
+				action_button.style.borderRadius = '5px';
+				action_button.style.cursor = 'pointer';
+				action_button.innerText = '做作业';
+				action_button.onclick = function() {
+					if (energy >= 20) {
+						energy -= 20;
+						energy_fill.style.width = energy + '%';
+						energy_text.innerText = '精力: ' + energy + '%';
+						alert('你完成了一部分作业！');
+					} else {
+						alert('你的精力不足，无法完成作业！');
+					}
+				};
+				document.getElementById("window_top_left").appendChild(action_button);
+				var rest_button = document.createElement('button');
+				rest_button.id = 'rest_button';
+				rest_button.style.position = 'absolute';
+				rest_button.style.top = '50px';
+				rest_button.style.left = '120px';
+				rest_button.style.width = '100px';
+				rest_button.style.height = '30px';
+				rest_button.style.backgroundColor = 'rgb(68, 25, 167)';
+				rest_button.style.color = 'rgb(194, 202, 247)';
+			}
+		</script>
     </head>
     <body>
-		<div id="begin_popup">
+		<div id = "overlay"></div>
+		<div id = "begin_popup">
 			<div>
-				<button id = "begin_popup_close">×</button>
+				<button id = "begin_popup_close" onclick = "close_begin_popup()">×</button>
 				<p style = "margin: 20px; text-align: center;">
-					初二水谷，你被A+B Problem创飞无缘蓝名。
+					初二水谷，你被A+B Problem创飞无缘OI。
 					<br/>
-					再睁开眼，你发现自己坐在课桌前，数学考试已经结束了……
+					再睁开眼，你发现自己坐在书桌前，暑假作业一字未动……
 				</p>
 			</div>
 		</div>
-        <div id="begin_page">
-            <h1 id="welcome">欢迎来到文化课模拟器！</h1>
-            <p id="introduction">你将扮演一位AFO的OIer，在初中备战中考，争取高分！</p>
-				<button id="begin_button">立刻开始！</button>
+        <div id = "begin_page">
+            <h1 id = "welcome">欢迎来到上中生存模拟器！</h1>
+            <p id = "introduction">你将扮演一位进入上中的初二生，在初中生存下来，备战中考，争取高分！</p>
+				<button id = "begin_button" onclick = "start_game()">立刻开始！</button>
 		</div>
     </body>
 </html>
